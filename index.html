@@ -155,90 +155,6 @@
 
 
   
-    <article id="post-h" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/06/17/h/" class="article-date">
-  <time class="dt-published" datetime="2021-06-17T13:21:07.000Z" itemprop="datePublished">2021-06-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/06/17/h/">SQL注入</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="布尔型注入"><a href="#布尔型注入" class="headerlink" title="布尔型注入"></a>布尔型注入</h2><p>盲注是注入的一种，指的是在不知道数据库返回值的情况下对数据中的内容进行猜测，实施SQL注入。盲注一般分为布尔盲注和基于时间的盲注和报错的盲注。</p>
-<h3 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h3><p>1、布尔型盲注应用于无数据回显，且WEB页面无报错信息的情况，此时不能通过报错型注入的方法来爆出数据，布尔型盲注的WEB页面只有两种回显结果，正确的页面以及错误的页面，且错误的页面无报错提示语句，正确的页面不能输出数据。</p>
-<p>实例是使用的sqli-labs  的第八关：</p>
-<p><img src="E:\CTF2021\sql1.png"></p>
-<p>get一个参数id = 1 会返回True的页面</p>
-<p><img src="E:\CTF2021\sql2.png"></p>
-<p><img src="E:\CTF2021\sql3.png"></p>
-<p>2.函数<br>盲注，其注入就是通过函数的执行结果来猜测数据</p>
-<p><strong>Length()函数</strong>：<br>其功能为返回字符串的长度。例如：length(abc)返回3</p>
-<p><strong>Substr()函数</strong>：<br>其功能为截取字符串<br>例如：substr(abc,1,1):含义为从abc的第一位开始取数，步长为1，结果显示a</p>
-<p><strong>Mid()函数</strong><br>其功能为取出字符串的一部分值<br>例如：Mid(abc,1,1)：从abc的第一位开始取数，步长为1，与substr()函数用法一致，结果显示为a</p>
-<p><strong>Left()函数</strong><br>其功能为取出字符串左边的几个数据。<br>Left(abc,1):返回a       Left(abc,2):返回bc</p>
-<p><strong>Ord()与ASCII()函数</strong><br>其功能为返回一个字符的ASCII码值<br>ASCII(s):返回115</p>
-<p><strong>Hex()函数</strong><br>其功能为返回该数的十六进制形式。</p>
-<p>3、本实例需要我们先测其闭合方式：</p>
-<p>id = 1’ and 1=1 –+:</p>
-<p><img src="E:\CTF2021\sql4.png"></p>
-<p>id = 1’ and 1 = 2 –+:</p>
-<p><img src="E:\CTF2021\sql5.png"></p>
-<p>可见其为单引号闭合。</p>
-<p>利用id = 1’ order by 10 –+   id = 1’ order by 5 –+</p>
-<p>id = 1’ order by 3 –+:可以试出来其列表为3列。</p>
-<p>求其数据库名</p>
-<p>id = 1’ and length(database())&gt;7 –+  有回显：</p>
-<p><img src="E:\CTF2021\8.png"></p>
-<p>id = 1’ and length(database()) &gt; 8–+没有回显：可判断其库名的长度为8</p>
-<p><img src="E:\CTF2021\9.png"></p>
-<p>查询数据库的第一个字符首字母：</p>
-<p>id = 1’id=1’and ord(substr(database(),1,1))&gt;114 –+  True;  </p>
-<p><img src="E:\CTF2021\10.png"></p>
-<p>id=1’and ord(substr(database(),1,1))&gt;115 –+            False</p>
-<p><img src="E:\CTF2021\11.png"></p>
-<p>可判断其首字母为s且为小写。修改其为id = 1’id=1’and ord(substr(database(),2,1))&gt;114 –+</p>
-<p>可查询第二个字母。最后可得到为security。</p>
-<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>​       时间型的注入遇到的条件更为苛刻，数据交互完成以后目标网站<strong>没有错误和正确的页面回显</strong>，这种情况我们可以利用<strong>时间函数</strong>来判断数据有没有在目标数据中得到执行。需要设置正确的时间延迟。</p>
-<p>函数   除其他盲注函数外    时间盲注的核心函数：sleep()。同时可以利用if判断函数结合。</p>
-<p>本次实例为sqli -labs第九关。</p>
-<p>?id=1’and if(1=2,1,sleep(2)) –+：可见在等待了两秒后输出</p>
-<p><img src="E:\CTF2021\12.png"></p>
-<p>?id=1’and if(length((select database()))=8,sleep(2),0) –+  ：</p>
-<p>同样也可以通过此语句来判断</p>
-<p>如果当前数据库名的长度为8的话则立即输出，如果不为8则延迟2s输出。</p>
-<p>?id=1’and if(ascii(substr((select database()),1,1))&gt;114,sleep(2),0)  –+</p>
-<p>同样可以通过其ASCII码值来判断其首字母。</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/RAmCEn"><img src="https://z3.ax1x.com/2021/06/21/RAmCEn.png" alt="RAmCEn.png"></a></p>
-<p>布尔盲注和时间盲注在语法和使用条件上是十分相像的。只是要求其产生的回显反馈不同。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/06/17/h/" data-id="ckq654a7g0001f8vidnkc9hni" data-title="SQL注入" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-成功搭建博客" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/06/17/%E6%88%90%E5%8A%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
@@ -364,10 +280,6 @@
         
           <li>
             <a href="/2021/06/17/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/17/h/">SQL注入</a>
           </li>
         
           <li>
